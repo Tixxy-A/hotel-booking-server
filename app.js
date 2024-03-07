@@ -62,7 +62,7 @@ app.post('https://airbnc-ff6p.onrender.com/logout', (req, res) => {
     res.cookie('token', '').json(true);
 })
 
-app.get('https://airbnc-ff6p.onrender.com/profile', async (req, res) => {
+app.get('/profile', async (req, res) => {
     const { token } = req.cookies;
     if (token) {
         jwt.verify(token, process.env.JWTSECRET, {}, (err, user) => {
