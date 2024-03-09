@@ -21,7 +21,7 @@ app.use('/uploads', express.static(__dirname + '/uploads'));
 
 app.use(cors({
     credentials: true,
-    origin: 'https://65ea286459073d682a65afc8--aiaabnb.netlify.app/'
+    
 }))
 mongoose.connect(process.env.MONGOURL);
 
