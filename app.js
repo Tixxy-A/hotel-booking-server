@@ -23,7 +23,7 @@ app.use(cors());
 mongoose.connect(process.env.MONGOURL);
 
 
-app.post('https://airbnc-ff6p.onrender.com/register', async (req, res) => {
+app.post('/register', async (req, res) => {
     try {
         const { name, email, password } = req.body;
         const salt = await bcrypt.genSalt(10);
@@ -35,7 +35,7 @@ app.post('https://airbnc-ff6p.onrender.com/register', async (req, res) => {
     }
 
 })
-app.post('https://airbnc-ff6p.onrender.com/login', async (req, res) => {
+app.post('/login', async (req, res) => {
     const { email, password } = req.body;
     const existingUser = await User.findOne({ email: email });
     //console.log(existingUser);
@@ -55,7 +55,7 @@ app.post('https://airbnc-ff6p.onrender.com/login', async (req, res) => {
 
 });
 
-app.post('https://airbnc-ff6p.onrender.com/logout', (req, res) => {
+app.post('/logout', (req, res) => {
     res.cookie('token', '').json(true);
 })
 
@@ -76,7 +76,7 @@ app.get('/profile', async (req, res) => {
     }
 });
 
-app.post('https://airbnc-ff6p.onrender.com/add-by-link', async (req, res) => {
+app.post('/add-by-link', async (req, res) => {
     const { link } = req.body;
     // console.log(link);
     const newName = 'photo' + Date.now() + '.jpg';
@@ -92,7 +92,7 @@ app.post('https://airbnc-ff6p.onrender.com/add-by-link', async (req, res) => {
 })
 
 const photosMiddleware = multer({ dest: 'uploads/' });
-app.post('https://airbnc-ff6p.onrender.com/upload', photosMiddleware.array('photos', 100), async (req, res) => {
+app.post('/upload', photosMiddleware.array('photos', 100), async (req, res) => {
     const uploadedFiles = [];
     for (let i = 0; i < req.files.length; i++) {
         console.log(req.files[i]);
@@ -109,13 +109,13 @@ app.post('https://airbnc-ff6p.onrender.com/upload', photosMiddleware.array('phot
 })
 
 
-app.get('https://airbnc-ff6p.onrender.comhttps://airbnc-ff6p.onrender.com/places',async(req,res)=>{
+app.get('/places',async(req,res)=>{
     const allplace=await Place.find({});
     res.json(allplace);
 })
 
 
-app.post('https://airbnc-ff6p.onrender.com/places', async(req, res) => {
+app.post('/places', async(req, res) => {
     const { token } = req.cookies;
     if (token) {
         jwt.verify(token, process.env.JWTSECRET, {}, (err, user) => {
@@ -145,7 +145,7 @@ app.post('https://airbnc-ff6p.onrender.com/places', async(req, res) => {
     }
 })
 
-app.get('https://airbnc-ff6p.onrender.com/user-places',(req,res)=>{
+app.get('/user-places',(req,res)=>{
     const {token}=req.cookies;
     jwt.verify(token,process.env.JWTSECRET,{},async (err,data)=>{
         if(err){
@@ -159,14 +159,14 @@ app.get('https://airbnc-ff6p.onrender.com/user-places',(req,res)=>{
     })
 })
 
-app.get('https://airbnc-ff6p.onrender.com/places/:id',async(req,res)=>{
+app.get('/places/:id',async(req,res)=>{
 
     const {id}=req.params;
     const placdoc=await Place.findById(id);
     res.json(placdoc);
 })
 
-app.put('https://airbnc-ff6p.onrender.com/places/:id',async(req,res)=>{
+app.put('/places/:id',async(req,res)=>{
     const {id}=req.params;
     const {token}=req.cookies;
     const {title,address,addedphotos,description,
@@ -186,7 +186,7 @@ app.put('https://airbnc-ff6p.onrender.com/places/:id',async(req,res)=>{
     })
 })
 
-app.get('https://airbnc-ff6p.onrender.com/booking',async (req, res)=>{
+app.get('/booking',async (req, res)=>{
     const {token}=req.cookies;
     jwt.verify(token,process.env.JWTSECRET,{},async (err,data)=>{
         if(err){
@@ -200,7 +200,7 @@ app.get('https://airbnc-ff6p.onrender.com/booking',async (req, res)=>{
     })
 })
 
-app.post('https://airbnc-ff6p.onrender.com/booking',async(req,res)=>{
+app.post('/booking',async(req,res)=>{
     const {checkIn,checkOut,numberOfGuest,name,mobile,price,place}=req.body;
     const {token}=req.cookies;
     jwt.verify(token,process.env.JWTSECRET,{},async (err,data)=>{
