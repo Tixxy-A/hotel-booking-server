@@ -14,6 +14,7 @@ const fs = require('fs');
 require('dotenv').config()
 
 const app = express()
+app.set("trust proxy", 1);
 app.use(express.json());
 app.use(cookieparser());
 app.use(cors());
