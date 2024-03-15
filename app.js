@@ -46,7 +46,7 @@ app.post('/login', async (req, res) => {
 
         if (isMatch) {
             const token = jwt.sign({ email: existingUser.email, id: existingUser._id, name: existingUser.name }, process.env.JWTSECRET);
-            res.cookie('token', token).json(existingUser);
+            res.cookie('token', token,{ httpOnly: true }).json(existingUser);
         }
         else {
             res.status(401).json({ message: 'invalid password' });
