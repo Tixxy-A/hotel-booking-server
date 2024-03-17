@@ -17,7 +17,10 @@ const app = express()
 app.set("trust proxy", 1);
 app.use(express.json());
 app.use(cookieparser());
-app.use(cors());
+app.use(cors({
+    origin: true,
+    credentials: true // Allow cookies to be sent
+  }));
 app.use('/uploads', express.static(__dirname + '/uploads'));
 
 
